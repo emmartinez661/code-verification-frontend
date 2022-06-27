@@ -1,1 +1,1 @@
-# code-verification-frontend
+# code-verifier-frontend
