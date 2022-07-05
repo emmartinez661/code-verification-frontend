@@ -1,4 +1,6 @@
-import react from 'react';
+import react  from 'react';
+
+import { useNavigate } from 'react-router-dom';
 
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -24,6 +26,9 @@ const LoginForm = () => {
         password: ''
     }
 
+
+    let navigate = useNavigate();
+
     return (
         <div>
             <h4>Login form</h4>
@@ -32,11 +37,11 @@ const LoginForm = () => {
                 initialValues={initialCredentials}
                 validationSchema = {loginSchema}
                 onSubmit={ async(values) =>{
-                    login(values.email, values.password).then((response:AxiosResponse) => {
+                    login(values.email, values.password).then(async(response:AxiosResponse) => {
                         if(response.status == 200){
                             if(response.data.token){
-                                alert(JSON.stringify(response.data, null,2))
-                                sessionStorage.setItem('sessionJWTToken', response.data.token)
+                               await sessionStorage.setItem('sessionJWTToken', response.data.token)
+                               navigate('/')
                             }else {
                                 throw new Error('Error generating token')
                             }
